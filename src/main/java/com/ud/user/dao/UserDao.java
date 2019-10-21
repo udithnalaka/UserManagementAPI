@@ -36,4 +36,18 @@ public class UserDao {
 		return users.get(id);
 	}
 
+	
+	/**
+	 * create a new User 
+	 * 
+	 * @param user User
+	 * 
+	 * @return {@link User}
+	 */
+	public User saveUser(final User user) {
+		
+		users.put(user.getId(), user);
+		return getUserById(user.getId());
+	}
+
 }

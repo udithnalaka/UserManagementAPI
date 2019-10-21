@@ -29,4 +29,12 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+
+	@Override
+	public User createUser(User user) {
+		LOGGER.info("createUser(). User : {}", user);
+		
+		return userDao.saveUser(user);
+	}
+
 }

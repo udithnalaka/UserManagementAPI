@@ -13,4 +13,14 @@ public interface UserService {
 	 */
 	public User getUserById(final int id);
 
+	
+	/**
+	 * create a new User 
+	 * 
+	 * @param user User
+	 * 
+	 * @return {@link User}
+	 */
+	public User createUser(User user);
+
 }

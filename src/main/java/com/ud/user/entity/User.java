@@ -12,12 +12,14 @@ public class User {
 
 	private int id;
 
+	@Size(min = 1, max = 50)
 	private String name;
 
-	@Size(min = 1, max = 50)
 	private int age;
 
 	private String sex;
+	
+	public User() {}
 
 	public User(int id, String name, int age, String sex) {
 		this.id = id;
@@ -40,6 +42,22 @@ public class User {
 
 	public String getSex() {
 		return sex;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 	@Override
