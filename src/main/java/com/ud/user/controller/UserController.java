@@ -110,10 +110,10 @@ public class UserController {
 	
 	
 	/**
-     * delete a User with id.(Soft delete).
+     * delete User with id.(Soft delete).
      * only change the status to DEACTIVE.
      *
-     * @param id UserId
+     * @param id  List of UserId's
      * 
      * @return void
      */
