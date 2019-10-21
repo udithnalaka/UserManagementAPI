@@ -2,6 +2,7 @@ package com.ud.user.test.integration;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,7 +52,12 @@ class UserManagementApplicationTests {
 	private static final int CREATE_USER_AGE = 5;
 	private static final String CREATE_USER_SEX = "female";
 	
-	private static final String CREATE_USER_NAME_GREATER_THAN_50 = "User name should be less than fifty characters, or else 400.";
+	private static final int UPDATE_USER_ID_VALID = 2;
+	private static final String UPDATE_USER_NAME = "Nethuni Dhar";
+	private static final int UPDATE_USER_AGE = 50;
+	private static final String UPDATE_USER_SEX = "female";
+	
+	private static final String USER_NAME_GREATER_THAN_50 = "User name should be less than fifty characters, or else 400.";
 	
 	@BeforeEach
 	public void setup() {
@@ -109,12 +115,50 @@ class UserManagementApplicationTests {
 		userMockMvc.perform(post(USER_API_PATH)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(
-					CREATE_USER_ID, CREATE_USER_NAME_GREATER_THAN_50, CREATE_USER_AGE, CREATE_USER_SEX))))
+					CREATE_USER_ID, USER_NAME_GREATER_THAN_50, CREATE_USER_AGE, CREATE_USER_SEX))))
 			.andExpect(status().isBadRequest());
 		
 	}
-	
-	
 	////END - test cases for createUser()
+	
+	
+	////START - test cases for updateUser()
+	@Test
+	public void updateUserWithValidEntityShouldReturnTheUpdatedUser() throws Exception {
+
+		userMockMvc.perform(put(USER_API_PATH + "/" + UPDATE_USER_ID_VALID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(UPDATE_USER_ID_VALID,
+						UPDATE_USER_NAME, UPDATE_USER_AGE, UPDATE_USER_SEX))))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath(RESPONSE_PARAM_USER_ID).value(UPDATE_USER_ID_VALID))
+				.andExpect(jsonPath(RESPONSE_PARAM_USER_NAME).value(UPDATE_USER_NAME))
+				.andExpect(jsonPath(RESPONSE_PARAM_USER_AGE).value(UPDATE_USER_AGE))
+				.andExpect(jsonPath(RESPONSE_PARAM_USER_SEX).value(UPDATE_USER_SEX));
+	}
+	
+	
+	@Test
+	public void updateUserWithInValidIdShouldReturnNotFound() throws Exception {
+
+		userMockMvc.perform(put(USER_API_PATH + "/" + USER_ID_INVALID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(USER_ID_INVALID,
+						UPDATE_USER_NAME, UPDATE_USER_AGE, UPDATE_USER_SEX))))
+		.andExpect(status().isNotFound());
+	}
+	
+	
+	@Test
+	public void updateUserWithNameLengthGreaterThanFiftyShouldReturnValidationError() throws Exception {
+
+		userMockMvc.perform(put(USER_API_PATH + "/" + UPDATE_USER_ID_VALID)
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(UPDATE_USER_ID_VALID,
+						USER_NAME_GREATER_THAN_50, UPDATE_USER_AGE, UPDATE_USER_SEX))))
+		.andExpect(status().isBadRequest());
+	}
+	////END - test cases for updateUser()
+	
 	
 }

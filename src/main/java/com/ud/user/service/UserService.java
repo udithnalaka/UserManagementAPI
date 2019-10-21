@@ -5,7 +5,7 @@ import com.ud.user.entity.User;
 public interface UserService {
 
 	/**
-	 * View a {@link User} for the passed id .
+	 * View a {@link User} for the passed id.
 	 *
 	 * @param id User id
 	 * 
@@ -13,14 +13,23 @@ public interface UserService {
 	 */
 	public User getUserById(final int id);
 
-	
 	/**
-	 * create a new User 
+	 * create a new User .
 	 * 
-	 * @param user User
+	 * @param user {@link User}
 	 * 
 	 * @return {@link User}
 	 */
 	public User createUser(User user);
+
+	/**
+	 * update User details for the given id.
+	 * 
+	 * @param id   User id
+	 * @param user {@link User}
+	 * 
+	 * @return {@link User}
+	 */
+	public User updateUser(final int id, final User user);
 
 }
