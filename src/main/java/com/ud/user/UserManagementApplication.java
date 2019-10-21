@@ -1,4 +1,4 @@
-package com.ud.user.UserManagement;
+package com.ud.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
