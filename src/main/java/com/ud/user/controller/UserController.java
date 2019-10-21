@@ -1,5 +1,6 @@
 package com.ud.user.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -116,13 +117,13 @@ public class UserController {
      * 
      * @return void
      */
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/{ids}")
     @ApiResponses(value = { 
 			@ApiResponse(code = 204, message = "Successfully deleted the User")})
-    public ResponseEntity<?> deleteUser(@PathVariable("id") final int id) {
-    	LOGGER.info("deleteUser(). ID : {} ", id);
-    	
-    	userService.deleteUser(id);
+    public ResponseEntity<?> deleteUser(@PathVariable("ids") final List<Integer> ids) {
+    	LOGGER.info("deleteUser(). ID : {} ", ids);
+        	
+    	userService.deleteUser(ids);
     	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

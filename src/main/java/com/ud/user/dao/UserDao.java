@@ -1,6 +1,7 @@
 package com.ud.user.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ public class UserDao {
 		users.put(1, new User(1, "Udith Nalaka", 35, "male", "ACTIVE"));
 		users.put(2, new User(2, "John Smith ", 90, "male", "ACTIVE"));
 		users.put(3, new User(3, "Ira Rana", 20, "female", "ACTIVE"));
+		users.put(4, new User(4, "Asa Rana", 50, "male", "ACTIVE"));
 	}
 
 	/**
@@ -68,21 +70,21 @@ public class UserDao {
 	}
 
 	/**
-	 * delete User
+	 * delete Users
 	 * 
-	 * @param id User id
+	 * @param ids List of User id's
 	 * 
-	 * @return {@link User}
+	 * @return void
 	 */
-	public User deleteUser(int id) {
+	public void deleteUser(List<Integer> ids) {
 		
-		if (users.containsKey(id)) {
-			User userToDelete = users.get(id);
-			userToDelete.setStatus("DEACTIVE");
-			return updateUser(id, userToDelete);
+		for (Integer id : ids) {
+			if (users.containsKey(id)) {
+				User userToDelete = users.get(id);
+				userToDelete.setStatus("DEACTIVE");
+			}
 		}
 
-		return null;
 	}
 
 }

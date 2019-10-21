@@ -38,6 +38,7 @@ class UserManagementApplicationTests {
 	private static final String USER_API_PATH = "/api/v1/users";
 	
 	private static final int USER_ID_VALID = 1;
+	private static final int USER_ID_VALID_3 = 3;
 	private static final int USER_ID_INVALID = 10;
 	private static final String USER_NAME_VALID = "Udith Nalaka";
 	private static final int USER_AGE_VALID = 35;
@@ -53,15 +54,15 @@ class UserManagementApplicationTests {
 	private static final String CREATE_USER_NAME = "Minuki D";
 	private static final int CREATE_USER_AGE = 5;
 	private static final String CREATE_USER_SEX = "female";
-	private static final String CREATE_USER_STATUS = "ACTIVE";
+	private static final String USER_STATUS = "ACTIVE";
 	
 	private static final int UPDATE_USER_ID_VALID = 2;
 	private static final String UPDATE_USER_NAME = "Nethuni Dhar";
 	private static final int UPDATE_USER_AGE = 50;
 	private static final String UPDATE_USER_SEX = "female";
-	private static final String UPDATE_USER_STATUS = "ACTIVE";
 	
-	private static final int DELETE_USER_ID_VALID = 2;
+	private static final int DELETE_USER_ID_VALID_2 = 2;
+	private static final int DELETE_USER_ID_VALID_4 = 4;
 	private static final int DELETE_USER_ID_INVALID = 12;
 	private static final String DELETE_USER_STATUS = "DEACTIVE";
 	
@@ -115,7 +116,7 @@ class UserManagementApplicationTests {
 			.andExpect(jsonPath(RESPONSE_PARAM_USER_NAME).value(CREATE_USER_NAME))
 			.andExpect(jsonPath(RESPONSE_PARAM_USER_AGE).value(CREATE_USER_AGE))
 			.andExpect(jsonPath(RESPONSE_PARAM_USER_SEX).value(CREATE_USER_SEX))
-			.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(CREATE_USER_STATUS));
+			.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(USER_STATUS));
 	}
 	
 	@Test
@@ -144,7 +145,7 @@ class UserManagementApplicationTests {
 				.andExpect(jsonPath(RESPONSE_PARAM_USER_NAME).value(UPDATE_USER_NAME))
 				.andExpect(jsonPath(RESPONSE_PARAM_USER_AGE).value(UPDATE_USER_AGE))
 				.andExpect(jsonPath(RESPONSE_PARAM_USER_SEX).value(UPDATE_USER_SEX))
-				.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(UPDATE_USER_STATUS));
+				.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(USER_STATUS));
 	}
 	
 	
@@ -173,15 +174,39 @@ class UserManagementApplicationTests {
 	
 	////START - test cases for deleteUser()
 	@Test
-	public void deleteUserWithValidIdShouldReturnNoContentAndChangeUserStatus() throws Exception {
+	public void deleteUserWithSingleValidIdShouldReturnNoContentAndChangeUserStatus() throws Exception {
 
-		userMockMvc.perform(delete(USER_API_PATH + "/" + DELETE_USER_ID_VALID))
+		userMockMvc.perform(delete(USER_API_PATH + "/" + DELETE_USER_ID_VALID_2))
 				.andExpect(status().isNoContent());
 		
-		//check if user status has changed to "DEACTIVE" by performing a GET by deleted id.
-		userMockMvc.perform(get(USER_API_PATH + "/" + DELETE_USER_ID_VALID))
+		//check if user status has changed to "DEACTIVE" for id = 2.
+		userMockMvc.perform(get(USER_API_PATH + "/" + DELETE_USER_ID_VALID_2))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(DELETE_USER_STATUS));
+		
+	}
+	
+	
+	@Test
+	public void deleteUserWithMultipleValidIdShouldReturnNoContentAndChangeUserStatus() throws Exception {
+
+		userMockMvc.perform(delete(USER_API_PATH + "/" + DELETE_USER_ID_VALID_2 + "," + DELETE_USER_ID_VALID_4))
+				.andExpect(status().isNoContent());
+		
+		//check if user status has changed to "DEACTIVE" for id = 2 & 4.
+		userMockMvc.perform(get(USER_API_PATH + "/" + DELETE_USER_ID_VALID_2))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(DELETE_USER_STATUS));
+		
+		userMockMvc.perform(get(USER_API_PATH + "/" + DELETE_USER_ID_VALID_4))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(DELETE_USER_STATUS));
+		
+		
+		//check if user status is still "ACTIVE" for id = 3
+		userMockMvc.perform(get(USER_API_PATH + "/" + USER_ID_VALID_3))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath(RESPONSE_PARAM_USER_STATUS).value(USER_STATUS));
 	}
 	
 	
@@ -189,8 +214,9 @@ class UserManagementApplicationTests {
 	public void deleteUserWithInValidIdShouldReturnNoContentWithoutChangingStatus() throws Exception {
 
 		userMockMvc.perform(delete(USER_API_PATH + "/" + DELETE_USER_ID_INVALID))
-				.andExpect(status().isNoContent());
+		.andExpect(status().isNoContent());
 	}
+	 
 	////END - test cases for deleteUser()
 	
 }

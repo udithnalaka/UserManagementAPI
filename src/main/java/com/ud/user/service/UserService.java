@@ -1,5 +1,7 @@
 package com.ud.user.service;
 
+import java.util.List;
+
 import com.ud.user.entity.User;
 
 public interface UserService {
@@ -33,12 +35,12 @@ public interface UserService {
 	public User updateUser(final int id, final User user);
 
 	/**
-	 * delete User for the given id.
+	 * delete User for the given id's.
 	 * 
-	 * @param id   User id
+	 * @param ids  List of User id's
 	 * 
-	 * @return {@link User}
+	 * @return void
 	 */
-	public User deleteUser(final int id);
+	public void deleteUser(final List<Integer> ids);
 
 }
