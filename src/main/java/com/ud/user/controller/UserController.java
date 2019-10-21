@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -53,7 +54,8 @@ public class UserController {
 	 * @return {@link ResponseEntity<User>}
 	 */
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "User Successfully Retriewed"),
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "User Successfully Retriewed"),
 			@ApiResponse(code = 404, message = "User not found for the given id") })
 	public ResponseEntity<User> getUserById(@PathVariable("id") final int id) {
 		LOGGER.info("getUserById(). ID : {}", id);
@@ -72,7 +74,8 @@ public class UserController {
 	 * @return newly created {@link User}
 	 */
 	@PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "User added Successfully"),
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "User added Successfully"),
 			@ApiResponse(code = 400, message = "Validation Error") })
 	public ResponseEntity<User> createUser(@Validated @RequestBody(required = true) User user) {
 		LOGGER.info("createUser(). User : {} ", user);
@@ -91,7 +94,8 @@ public class UserController {
 	 * @return updated {@link User}
 	 */
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "User updated Successfully"),
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "User updated Successfully"),
 			@ApiResponse(code = 400, message = "Validation Error"),
 			@ApiResponse(code = 404, message = "User Not Found. not able to update") })
 	public ResponseEntity<User> updateUser(@PathVariable("id") final int id,
@@ -102,5 +106,24 @@ public class UserController {
 				.map(result -> ResponseEntity.ok(result))
 				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
+	
+	
+	/**
+     * delete a User with id.(Soft delete).
+     * only change the status to DEACTIVE.
+     *
+     * @param id UserId
+     * 
+     * @return void
+     */
+    @DeleteMapping(value = "/{id}")
+    @ApiResponses(value = { 
+			@ApiResponse(code = 204, message = "Successfully deleted the User")})
+    public ResponseEntity<?> deleteUser(@PathVariable("id") final int id) {
+    	LOGGER.info("deleteUser(). ID : {} ", id);
+    	
+    	userService.deleteUser(id);
+    	return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

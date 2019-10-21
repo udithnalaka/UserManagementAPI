@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Strings;
 import com.ud.user.dao.UserDao;
 import com.ud.user.entity.User;
 
@@ -40,6 +41,14 @@ public class UserServiceImpl implements UserService {
 		LOGGER.info("updateUser().  ID : {}, User : {}", id, user);
 
 		return userDao.updateUser(id, user);
+	}
+
+	@Override
+	public User deleteUser(int id) {
+		LOGGER.info("deleteUser().  ID : {}", id);
+
+		 return userDao.deleteUser(id);
+			 
 	}
 
 }

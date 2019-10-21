@@ -19,13 +19,16 @@ public class User {
 
 	private String sex;
 	
+	private String status;
+	
 	public User() {}
 
-	public User(int id, String name, int age, String sex) {
+	public User(int id, String name, int age, String sex, String status) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.sex = sex;
+		this.status = status;
 	}
 
 	public int getId() {
@@ -59,10 +62,18 @@ public class User {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", age=" + age + ", sex=" + sex + "]";
+		return "User [id=" + id + ", name=" + name + ", age=" + age + ", sex=" + sex + ", status=" + status + "]";
 	}
 
 }

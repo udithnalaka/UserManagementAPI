@@ -19,9 +19,9 @@ public class UserDao {
 	private static Map<Integer, User> users = new HashMap<>();
 
 	static {
-		users.put(1, new User(1, "Udith Nalaka", 35, "male"));
-		users.put(2, new User(2, "John Smith ", 90, "male"));
-		users.put(3, new User(3, "Ira Rana", 20, "female"));
+		users.put(1, new User(1, "Udith Nalaka", 35, "male", "ACTIVE"));
+		users.put(2, new User(2, "John Smith ", 90, "male", "ACTIVE"));
+		users.put(3, new User(3, "Ira Rana", 20, "female", "ACTIVE"));
 	}
 
 	/**
@@ -62,6 +62,24 @@ public class UserDao {
 		if (users.containsKey(id)) {
 			users.put(id, user);
 			return getUserById(id);
+		}
+
+		return null;
+	}
+
+	/**
+	 * delete User
+	 * 
+	 * @param id User id
+	 * 
+	 * @return {@link User}
+	 */
+	public User deleteUser(int id) {
+		
+		if (users.containsKey(id)) {
+			User userToDelete = users.get(id);
+			userToDelete.setStatus("DEACTIVE");
+			return updateUser(id, userToDelete);
 		}
 
 		return null;

@@ -32,4 +32,13 @@ public interface UserService {
 	 */
 	public User updateUser(final int id, final User user);
 
+	/**
+	 * delete User for the given id.
+	 * 
+	 * @param id   User id
+	 * 
+	 * @return {@link User}
+	 */
+	public User deleteUser(final int id);
+
 }
