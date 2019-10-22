@@ -25,5 +25,8 @@ docker image is created and added to docker hub
 * I have written integration tests, as I feel it's more relevant for API testing. Unit tests can also be written
  where there is business logic to test mainly in the service layer. 
  
+* a simple performance test can be run locally by using Postman runner. can simulate the number of requests
+to be sent to an endpoint with an interval. 
+ 
  Creator,
  Udith
