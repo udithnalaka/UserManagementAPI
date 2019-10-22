@@ -1,6 +1,6 @@
 # Getting Started
 
-###github repo - clone
+### github repo - clone
 https://github.com/udithnalaka/UserManagementAPI.git
 
 ### build, test, package app
@@ -9,7 +9,7 @@ mvn clean install
 ### run the app
 java -jar /target/UserManagement-0.0.1-SNAPSHOT.jar
 
-###swagger ui
+### swagger ui
 localhost:8080/swagger-ui.html#/user-controller/
 
 #### notes
