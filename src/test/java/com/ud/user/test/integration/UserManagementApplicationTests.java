@@ -55,6 +55,8 @@ class UserManagementApplicationTests {
 	private static final int CREATE_USER_AGE = 5;
 	private static final String CREATE_USER_SEX = "female";
 	private static final String USER_STATUS = "ACTIVE";
+	private static final String USER_EMAIL_VALID = "u@u.com";
+	private static final String USER_EMAIL_INVALID = "wrong.com";
 	
 	private static final int UPDATE_USER_ID_VALID = 2;
 	private static final String UPDATE_USER_NAME = "Nethuni Dhar";
@@ -76,8 +78,8 @@ class UserManagementApplicationTests {
 		this.userMockMvc = MockMvcBuilders.standaloneSetup(userResource).build();
 	}
 	
-	private User createUserForTesting(int id, String name, int age, String sex) {
-		return new User(id, name, age, sex, "ACTIVE");
+	private User createUserForTesting(int id, String name, int age, String sex, String email) {
+		return new User(id, name, age, sex, "ACTIVE", email);
 	}
 	
 	////START - test cases for getUserById()
@@ -110,7 +112,7 @@ class UserManagementApplicationTests {
 		userMockMvc.perform(post(USER_API_PATH)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(
-					CREATE_USER_ID, CREATE_USER_NAME, CREATE_USER_AGE, CREATE_USER_SEX))))
+					CREATE_USER_ID, CREATE_USER_NAME, CREATE_USER_AGE, CREATE_USER_SEX, USER_EMAIL_VALID))))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath(RESPONSE_PARAM_USER_ID).value(CREATE_USER_ID))
 			.andExpect(jsonPath(RESPONSE_PARAM_USER_NAME).value(CREATE_USER_NAME))
@@ -125,7 +127,29 @@ class UserManagementApplicationTests {
 		userMockMvc.perform(post(USER_API_PATH)
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(
-					CREATE_USER_ID, USER_NAME_GREATER_THAN_50, CREATE_USER_AGE, CREATE_USER_SEX))))
+					CREATE_USER_ID, USER_NAME_GREATER_THAN_50, CREATE_USER_AGE, CREATE_USER_SEX, USER_EMAIL_VALID))))
+			.andExpect(status().isBadRequest());
+		
+	}
+	
+	@Test
+	public void createUserWithInvalidEmailShouldReturnValidationError() throws Exception {
+
+		userMockMvc.perform(post(USER_API_PATH)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(
+					CREATE_USER_ID, USER_NAME_GREATER_THAN_50, CREATE_USER_AGE, CREATE_USER_SEX, USER_EMAIL_INVALID))))
+			.andExpect(status().isBadRequest());
+		
+	}
+	
+	@Test
+	public void createUserWithEmptyEmailShouldReturnValidationError() throws Exception {
+
+		userMockMvc.perform(post(USER_API_PATH)
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(
+					CREATE_USER_ID, USER_NAME_GREATER_THAN_50, CREATE_USER_AGE, CREATE_USER_SEX, ""))))
 			.andExpect(status().isBadRequest());
 		
 	}
@@ -139,7 +163,7 @@ class UserManagementApplicationTests {
 		userMockMvc.perform(put(USER_API_PATH + "/" + UPDATE_USER_ID_VALID)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(UPDATE_USER_ID_VALID,
-						UPDATE_USER_NAME, UPDATE_USER_AGE, UPDATE_USER_SEX))))
+						UPDATE_USER_NAME, UPDATE_USER_AGE, UPDATE_USER_SEX, USER_EMAIL_VALID))))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath(RESPONSE_PARAM_USER_ID).value(UPDATE_USER_ID_VALID))
 				.andExpect(jsonPath(RESPONSE_PARAM_USER_NAME).value(UPDATE_USER_NAME))
@@ -155,7 +179,7 @@ class UserManagementApplicationTests {
 		userMockMvc.perform(put(USER_API_PATH + "/" + USER_ID_INVALID)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(USER_ID_INVALID,
-						UPDATE_USER_NAME, UPDATE_USER_AGE, UPDATE_USER_SEX))))
+						UPDATE_USER_NAME, UPDATE_USER_AGE, UPDATE_USER_SEX, USER_EMAIL_VALID))))
 		.andExpect(status().isNotFound());
 	}
 	
@@ -166,7 +190,7 @@ class UserManagementApplicationTests {
 		userMockMvc.perform(put(USER_API_PATH + "/" + UPDATE_USER_ID_VALID)
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(TestUtil.convertObjectToJsonBytes(createUserForTesting(UPDATE_USER_ID_VALID,
-						USER_NAME_GREATER_THAN_50, UPDATE_USER_AGE, UPDATE_USER_SEX))))
+						USER_NAME_GREATER_THAN_50, UPDATE_USER_AGE, UPDATE_USER_SEX, USER_EMAIL_VALID))))
 		.andExpect(status().isBadRequest());
 	}
 	////END - test cases for updateUser()

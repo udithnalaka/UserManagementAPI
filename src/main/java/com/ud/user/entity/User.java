@@ -1,5 +1,7 @@
 package com.ud.user.entity;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -12,6 +14,7 @@ public class User {
 
 	private int id;
 
+	@NotNull
 	@Size(min = 1, max = 50)
 	private String name;
 
@@ -21,14 +24,19 @@ public class User {
 	
 	private String status;
 	
+	@NotNull
+	@Email
+	private String email;
+	
 	public User() {}
 
-	public User(int id, String name, int age, String sex, String status) {
+	public User(int id, String name, int age, String sex, String status, String email) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.sex = sex;
 		this.status = status;
+		this.email = email;
 	}
 
 	public int getId() {
@@ -70,10 +78,23 @@ public class User {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", age=" + age + ", sex=" + sex + ", status=" + status + "]";
+		return "User [id=" + id + 
+				", name=" + name + 
+				", age=" + age + 
+				", sex=" + sex + 
+				", status=" + status + 
+				", email="	+ email + "]";
 	}
 
 }

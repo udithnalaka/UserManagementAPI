@@ -22,7 +22,7 @@ public interface UserService {
 	 * 
 	 * @return {@link User}
 	 */
-	public User createUser(User user);
+	public User createUser(final User user);
 
 	/**
 	 * update User details for the given id.

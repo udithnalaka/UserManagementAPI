@@ -20,10 +20,10 @@ public class UserDao {
 	private static Map<Integer, User> users = new HashMap<>();
 
 	static {
-		users.put(1, new User(1, "Udith Nalaka", 35, "male", "ACTIVE"));
-		users.put(2, new User(2, "John Smith ", 90, "male", "ACTIVE"));
-		users.put(3, new User(3, "Ira Rana", 20, "female", "ACTIVE"));
-		users.put(4, new User(4, "Asa Rana", 50, "male", "ACTIVE"));
+		users.put(1, new User(1, "Udith Nalaka", 35, "male", "ACTIVE", "u@n.com"));
+		users.put(2, new User(2, "John Smith ", 90, "male", "ACTIVE", "j@s.com"));
+		users.put(3, new User(3, "Ira Rana", 20, "female", "ACTIVE", "i@r.com"));
+		users.put(4, new User(4, "Asa Rana", 50, "male", "ACTIVE", "a@r.com"));
 	}
 
 	/**
