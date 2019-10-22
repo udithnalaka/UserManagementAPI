@@ -12,6 +12,13 @@ java -jar /target/UserManagement-0.0.1-SNAPSHOT.jar
 ### swagger ui
 localhost:8080/swagger-ui.html#/user-controller/
 
+### dockerizing the app
+docker image is created and added to docker hub
+* to pull -> docker pull udithnalaka/user-management-service
+* to run -> docker run -p 9090:8080 udithnalaka/user-management-service
+* swagger doc -> localhost:9090/swagger-ui.html#/user-controller
+
+
 #### notes
 * I have tested the emails using Mailtrap.io. a screenshot of tested emails is attached in the screenshots folder.
 
